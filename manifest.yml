@@ -1,0 +1,16 @@
+---
+applications:
+- name: MQL.sample.java.backend
+  memory: 256M
+  instances: 2
+  no-route: true
+  path: backend/deploy/wlp/usr/servers/sampleserver/apps/BackendWorker-1.0.war
+  services:
+  - MQLight-sampleservice
+- name: MQL.sample.java.frontend
+  memory: 256M
+  instances: 1
+  host: mqlightsample-java-${random-word}
+  path: frontend/target/FrontEndRESTApplication-1.0.war
+  services:
+  - MQLight-sampleservice
