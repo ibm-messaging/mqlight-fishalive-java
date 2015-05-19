@@ -61,6 +61,10 @@ public class BackendWorker {
 
   private NonBlockingClient mqlightClient;
 
+  public static void main(String[] args) throws Exception {
+    BackendWorker bw = new BackendWorker();
+  }
+
   /**
    * Default Constructor
    */

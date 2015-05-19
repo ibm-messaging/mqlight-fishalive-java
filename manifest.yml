@@ -4,7 +4,8 @@ applications:
   memory: 256M
   instances: 2
   no-route: true
-  path: backend/deploy/wlp/usr/servers/sampleserver/apps/BackendWorker-1.0.war
+  path: backend/target/BackendWorker-1.0-jar-with-dependencies.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack
   services:
   - MQLight-sampleservice
 - name: MQL.sample.java.frontend
