@@ -54,7 +54,7 @@ public class BackendWorker {
   /** The topic we subscribe on to receive notifications from the back-end */
   private static final String SUBSCRIBE_TOPIC = "mqlight/sample/words";
 
-  private static final String SHARE_ID = "java-back-end";
+  private static final String SHARE_ID = "fishalive-workers";
 
   /** Simple logging */
   private final static Logger logger = Logger.getLogger(BackendWorker.class.getName());
