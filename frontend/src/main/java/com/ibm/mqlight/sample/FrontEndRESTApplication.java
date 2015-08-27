@@ -73,25 +73,25 @@ import com.google.gson.*;
 @ApplicationPath("/rest/")
 @Path("/")
 public class FrontEndRESTApplication extends Application {
-	
-	/** The topic we publish on to send data to the back-end */
-	private static final String PUBLISH_TOPIC = "mqlight/sample/words";
-	
-	/** The topic we subscribe on to receive notifications from the back-end */
-	private static final String SUBSCRIBE_TOPIC = "mqlight/sample/wordsuppercase";
-	
+  
+  /** The topic we publish on to send data to the back-end */
+  private static final String PUBLISH_TOPIC = "mqlight/sample/words";
+  
+  /** The topic we subscribe on to receive notifications from the back-end */
+  private static final String SUBSCRIBE_TOPIC = "mqlight/sample/wordsuppercase";
+  
   /** Simple logging */
-	private final static Logger logger = Logger.getLogger(FrontEndRESTApplication.class.getName());
-	
-	/** JVM-wide initialisation of our subscription */
-	private static boolean subInitialised = false;
+  private final static Logger logger = Logger.getLogger(FrontEndRESTApplication.class.getName());
+  
+  /** JVM-wide initialisation of our subscription */
+  private static boolean subInitialised = false;
 
   /** Client that will send and receive messages */
   private NonBlockingClient mqlightClient;
 
   /** Holds the messages we've recieved from the backend */
   private LinkedList<String> receivedMessages;
-	
+  
     /**
      * Default Constructor
      */
@@ -133,7 +133,6 @@ public class FrontEndRESTApplication extends Application {
           public void onRetrying(NonBlockingClient client, Void context, ClientException throwable) {
               System.out.println("*** error ***");
               if (throwable != null) System.err.println(throwable.getMessage());
-              client.stop(null, null);
           }
 
           @Override
@@ -146,11 +145,11 @@ public class FrontEndRESTApplication extends Application {
           }
         }, null);
         logger.log(Level.INFO,"MQ Light client created. Current state: " + mqlightClient.getState());
-    	}
-    	catch (Exception e) {
-    		logger.log(Level.SEVERE, "Failed to initialise", e);
-    		throw new RuntimeException(e);
-    	}
+      }
+      catch (Exception e) {
+        logger.log(Level.SEVERE, "Failed to initialise", e);
+        throw new RuntimeException(e);
+      }
       logger.log(Level.INFO,"Completed initialisation.");
     }
 
@@ -164,10 +163,10 @@ public class FrontEndRESTApplication extends Application {
     public Response publishWords(Map<String, String> jsonInput) {
         
       logger.log(Level.INFO,"Publishing words" + jsonInput);
-    	
-    	// Check the caller supplied some words
-    	String words = jsonInput.get("words");
-    	if (words == null) throw new RuntimeException("No words sent");
+      
+      // Check the caller supplied some words
+      String words = jsonInput.get("words");
+      if (words == null) throw new RuntimeException("No words sent");
 
       // Before we connect to publish, we need to ensure our subscription has been
       // initialised, otherwise we might miss responses.
@@ -216,13 +215,13 @@ public class FrontEndRESTApplication extends Application {
     @Path("wordsuppercase")
     @Produces(MediaType.APPLICATION_JSON)
     public Response checkForPublications() {
-    	// Delegate to a static method synchronized across the JVM
-    	return singleThreadedCheckForPublications();
+      // Delegate to a static method synchronized across the JVM
+      return singleThreadedCheckForPublications();
     }
     
-	/**
-	 * A synchronized method for consuming messages we have received.
-	 */
+  /**
+   * A synchronized method for consuming messages we have received.
+   */
     private synchronized Response singleThreadedCheckForPublications() {
       Response response;
       if (receivedMessages == null || receivedMessages.isEmpty()) {

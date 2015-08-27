@@ -105,7 +105,6 @@ public class BackendWorker {
         public void onRetrying(NonBlockingClient client, Void context, ClientException throwable) {
             System.out.println("*** error ***");
             if (throwable != null) System.err.println(throwable.getMessage());
-            client.stop(null, null);
         }
 
         @Override
@@ -118,10 +117,10 @@ public class BackendWorker {
         }
       }, null);
       logger.log(Level.INFO,"MQ Light client created. Current state: " + mqlightClient.getState());
-  	} catch (Exception e) {
-  		logger.log(Level.SEVERE, "Failed to initialise", e);
-  		throw new RuntimeException(e);
-  	}
+    } catch (Exception e) {
+      logger.log(Level.SEVERE, "Failed to initialise", e);
+      throw new RuntimeException(e);
+    }
     logger.log(Level.INFO, "Completed initialisation.");
   }
 
