@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.LinkedList;
 
+import javax.ejb.Singleton;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -72,6 +73,7 @@ import com.google.gson.*;
  */
 @ApplicationPath("/rest/")
 @Path("/")
+@Singleton
 public class FrontEndRESTApplication extends Application {
   
   /** The topic we publish on to send data to the back-end */
