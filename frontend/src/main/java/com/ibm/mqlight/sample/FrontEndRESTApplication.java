@@ -9,12 +9,12 @@
 // <copyright
 // notice="lm-source-program"
 // pids=""
-// years="2014"
+// years="2014, 2016"
 // crc="659007836" >
 // Licensed Materials - Property of IBM
 //
 //
-// (C) Copyright IBM Corp. 2014 All Rights Reserved.
+// (C) Copyright IBM Corp. 2014, 2016 All Rights Reserved.
 //
 // US Government Users Restricted Rights - Use, duplication or
 // disclosure restricted by GSA ADP Schedule Contract with
@@ -105,7 +105,12 @@ public class FrontEndRESTApplication extends Application {
 
         logger.log(Level.INFO,"Creating an MQ Light client...");
 
-        mqlightClient = NonBlockingClient.create(null, new NonBlockingClientAdapter<Void>() {
+        String service = null;
+        if (System.getenv("VCAP_SERVICES") == null) {
+          service = "amqp://localhost:5672";
+        }
+        
+        mqlightClient = NonBlockingClient.create(service, new NonBlockingClientAdapter<Void>() {
 
           @Override
           public void onStarted(NonBlockingClient client, Void context) {
