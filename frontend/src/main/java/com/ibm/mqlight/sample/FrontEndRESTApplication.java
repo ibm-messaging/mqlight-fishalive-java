@@ -1,27 +1,14 @@
-// ******************************************************************
-//
-// Program name: mqlight_sample_frontend_web
-//
-// Description:
-//
-// A http servlet that demonstrates use of the IBM Bluemix MQ Light Service.
-//
-// <copyright
-// notice="lm-source-program"
-// pids=""
-// years="2014, 2016"
-// crc="659007836" >
-// Licensed Materials - Property of IBM
-//
-//
-// (C) Copyright IBM Corp. 2014, 2016 All Rights Reserved.
-//
-// US Government Users Restricted Rights - Use, duplication or
-// disclosure restricted by GSA ADP Schedule Contract with
-// IBM Corp.
-// </copyright>
-// *******************************************************************
-
+/*
+ * Copyright (c) 2014, 2016 IBM Corporation and other Contributors.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * IBM - Initial Contribution
+ */
 package com.ibm.mqlight.sample;
 
 import java.util.HashMap;
@@ -52,6 +39,9 @@ import com.ibm.mqlight.api.SendOptions;
 import com.ibm.mqlight.api.SendOptions.SendOptionsBuilder;
 import com.ibm.mqlight.api.DestinationAdapter;
 import com.ibm.mqlight.api.StringDelivery;
+import com.ibm.mqlight.api.JsonDelivery;
+import com.ibm.mqlight.api.BytesDelivery;
+import com.ibm.mqlight.api.MalformedDelivery;
 import com.ibm.mqlight.api.Delivery;
 
 import com.google.gson.*;
@@ -119,9 +109,28 @@ public class FrontEndRESTApplication extends Application {
             client.subscribe(SUBSCRIBE_TOPIC, new DestinationAdapter<Void>() {
               public void onMessage(NonBlockingClient client, Void context, Delivery delivery) {
                 logger.log(Level.INFO,"Received message of type: " + delivery.getType());
-                StringDelivery sd = (StringDelivery)delivery;
-                logger.log(Level.INFO,"Data: " + sd.getData());
-                receivedMessages.add(sd.getData());
+                switch (delivery.getType()) {
+                  case JSON:
+                    JsonDelivery jd = (JsonDelivery)delivery;
+                    logger.log(Level.INFO,"Data: " + jd.getData());
+                    receivedMessages.add(jd.getData().toString());
+                    break;
+                  case STRING:
+                    StringDelivery sd = (StringDelivery)delivery;
+                    logger.log(Level.INFO,"Data: " + sd.getData());
+                    receivedMessages.add(sd.getData());
+                    break;
+                  case BYTES:
+                    BytesDelivery bd = (BytesDelivery)delivery;
+                    logger.log(Level.INFO,"Data: " + bd.getData());
+                    receivedMessages.add(bd.getData().toString());
+                    break;
+                  case MALFORMED:
+                    MalformedDelivery md = (MalformedDelivery)delivery;
+                    logger.log(Level.WARNING,"Malformed message: " + md.getDescription());
+                    receivedMessages.add("MALFORMED");
+                    break;
+                }                
               }
             }, new CompletionListener<Void>() {
               @Override
