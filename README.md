@@ -14,7 +14,7 @@ source repository for convenience and can be deployed immediately.
 1.  Create an instance of the service using either the Bluemix console or the
     Bluemix cf command line tool.
 
-2.  In the MessageHub service Dashboard, create a topic called "MQLight" with a single partition.
+2.  In the Message Hub service Dashboard, create a topic called "MQLight" with a single partition.
 
 3.  Edit the `manifest.yml` file in the root directory of the sample to reflect
     the name of the service created above.
