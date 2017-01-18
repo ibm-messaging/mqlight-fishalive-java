@@ -5,7 +5,8 @@ applications:
   instances: 2
   no-route: true
   path: backend/target/BackendWorker-1.0-jar-with-dependencies.jar
-  buildpack: https://github.com/cloudfoundry/java-buildpack
+  buildpack: java_buildpack
+  health-check-type: none
   services:
   - MQLight-sampleservice
 - name: MQL.sample.java.frontend
@@ -13,5 +14,6 @@ applications:
   instances: 1
   host: mqlightsample-java-${random-word}
   path: frontend/target/FrontEndRESTApplication-1.0.war
+  buildpack: liberty-for-java
   services:
   - MQLight-sampleservice
